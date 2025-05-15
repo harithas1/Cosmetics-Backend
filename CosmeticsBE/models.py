@@ -57,7 +57,7 @@ class OrderItem(Base):
     __tablename__ = "order_item"
     id = Column(Integer, primary_key=True, index=True)
     orderId = Column(Integer, ForeignKey("orders.order_id"), nullable=False)
-    user_id =  Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False, index=True)
+    # user_id =  Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False, index=True)
     product_id = Column(Integer, ForeignKey("products.product_id"), nullable=False)
     name = Column(String(50),nullable=False)
     quantity = Column(Integer, nullable=False, default=1)
