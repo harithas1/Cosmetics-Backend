@@ -6,10 +6,10 @@ from fastapi.openapi.models import Schema
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette import status
-import schemas
+import CosmeticsBE.schemas as schemas
 
-from database import Session_local
-from models import Users
+from CosmeticsBE.database import Session_local
+from CosmeticsBE.models import Users
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError

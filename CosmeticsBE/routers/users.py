@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, Path
 from pydantic import BaseModel, Field
 
-from database import Session_local
+from CosmeticsBE.database import Session_local
 from typing import Annotated
 from sqlalchemy.orm import Session
-from models import Users
+from CosmeticsBE.models import Users
 from starlette import status
 from .auth import get_current_user
 from passlib.context import CryptContext

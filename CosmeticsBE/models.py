@@ -5,6 +5,7 @@ from uuid import uuid4
 
 class Users(Base):
     __tablename__ = 'users'
+    __table_args__ = {'extend_existing': True}
     user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, index=True)
     username = Column(String(50), unique=True)
     email = Column(String(),unique=True)
