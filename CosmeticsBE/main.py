@@ -1,7 +1,7 @@
 # This main.py file is our root folder where we create our fastapi application
 from fastapi import FastAPI
-from .models import Base
-from database import engine
+from models import Base
+from CosmeticsBE.database import engine
 from routers import auth, products, users
 
 app = FastAPI()

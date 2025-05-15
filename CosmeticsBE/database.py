@@ -1,11 +1,14 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 
-
-SQLALCHEMY_DATABASE_URL = 'postgresql://cosmetics_db_4lo5_user:8zGoFX5vJIipKkBpAbQZHO9BIJXLVkqL@dpg-d0ipaph5pdvs739o4ntg-a.oregon-postgres.render.com/cosmetics_db_4lo5'
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 

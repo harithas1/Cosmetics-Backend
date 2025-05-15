@@ -13,14 +13,17 @@ from models import Users
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 router = APIRouter(
     prefix = "/auth", tags=['auth']
 )
 
 # JWT config
-SECRET_KEY = '68f4cf1351c81cd88da54abdb33801f1b156b3fd026a8b9e6f6d887950168b02'
-ALGORITHM = 'HS256'
+SECRET_KEY = os.getenv("SECRET_KEY_ENV")
+ALGORITHM = os.getenv("ALGORITHM_ENV")
 
 
 bcrypt_context =  CryptContext(schemes=['bcrypt'],deprecated = 'auto')
