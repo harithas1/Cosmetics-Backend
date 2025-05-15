@@ -25,10 +25,10 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
-bcrypt_context =  CryptContext(schemes=['bcrypt'],deprecated = 'auto')
 
-@router.get("/", status_code=status.HTTP_200_OK)
-async def get_user(user: user_dependency, db: db_dependency):
+
+@router.get("/me", status_code=status.HTTP_200_OK)
+async def get_current_user_profile(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401,detail='Authentication failed')
     return db.query(Users).filter(Users.user_id==user.get('user_id')).first()

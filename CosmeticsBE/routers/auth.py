@@ -18,14 +18,16 @@ router = APIRouter(
     prefix = "/auth", tags=['auth']
 )
 
+# JWT config
 SECRET_KEY = '68f4cf1351c81cd88da54abdb33801f1b156b3fd026a8b9e6f6d887950168b02'
 ALGORITHM = 'HS256'
 
 
 bcrypt_context =  CryptContext(schemes=['bcrypt'],deprecated = 'auto')
 
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl='/auth/token')
 
+# Token schema
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -39,6 +41,8 @@ def get_db():
         db.close()
 db_dependency = Annotated[Session, Depends(get_db)]
 
+
+# Authenticate a user from DB
 def authenticate_user(username: str,password: str, db):
     user = db.query(Users).filter(Users.username==username).first()
     if not user:
@@ -47,13 +51,14 @@ def authenticate_user(username: str,password: str, db):
         return  False
     return user
 
+# Create JWT access token
 def  create_access_token(username: str, user_id: str, role: str, expires_delta: timedelta):
     encode = {'sub':username,'user_id':user_id, 'role': role}
     expires = datetime.now(timezone.utc) + expires_delta
     encode.update({'exp' : expires})
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
-
+# Get current user from token
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
         payload = jwt.decode(token,SECRET_KEY, algorithms=[ALGORITHM])
@@ -66,8 +71,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user.')
 
-
-@router.post("/", status_code=status.HTTP_201_CREATED)
+# Register a new user
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency,
                       create_user_request: schemas.CreateUserRequest):
 
@@ -86,7 +91,7 @@ async def create_user(db: db_dependency,
     db.add(create_user_model)
     db.commit()
 
-
+# Login and get JWT token
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data:Annotated[OAuth2PasswordRequestForm, Depends()],db: db_dependency ):
     user = authenticate_user(form_data.username, form_data.password, db)
@@ -96,4 +101,3 @@ async def login_for_access_token(form_data:Annotated[OAuth2PasswordRequestForm, 
 
     token = create_access_token(user.username,str(user.user_id), user.role, timedelta(minutes=20))
     return {'access_token':token, 'token_type':'bearer'}
-
