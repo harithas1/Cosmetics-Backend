@@ -1,4 +1,4 @@
-from database import Base
+from CosmeticsBE.database import Base
 from sqlalchemy import Column, Integer, String, Boolean, JSON, ForeignKey, Float, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
