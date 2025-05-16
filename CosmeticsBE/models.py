@@ -18,7 +18,6 @@ class Categories(Base):
     __tablename__ = 'categories'
     category_id = Column(Integer, primary_key=True, index=True)
     category_name = Column(String)
-    description = Column(String)
     image = Column(String)
 
 class Products(Base):
