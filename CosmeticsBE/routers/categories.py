@@ -6,8 +6,7 @@ from starlette import status
 import CosmeticsBE.schemas as schemas
 
 from CosmeticsBE.database import Session_local
-from CosmeticsBE.models import Categories
-
+from CosmeticsBE.models import Categories, Products
 
 router = APIRouter(
     prefix = "/category", tags=['category']
@@ -43,3 +42,8 @@ async def add_category(db: db_dependency, add_category: schemas.AddCategory):
 async def get_category(db: db_dependency):
     add_category_model = db.query(Categories).all()
     return add_category_model
+
+@router.get("/getProductsById/{category_id}", status_code=status.HTTP_200_OK)
+async def get_Products_By_categoryId(db:db_dependency,category_id:int):
+    products = db.query(Products).filter(Products.categoryId == category_id).all()
+    return products

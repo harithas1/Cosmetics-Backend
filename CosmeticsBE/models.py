@@ -43,7 +43,6 @@ class CartItem(Base):
     cartId = Column(Integer, ForeignKey("cart.cart_id"), nullable=False, index=True)
     product_id = Column(Integer, ForeignKey("products.product_id"), nullable=False)
     quantity = Column(Integer, nullable=False, default=1)
-    user_id =  Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False, index=True)
 
 
 

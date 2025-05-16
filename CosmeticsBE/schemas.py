@@ -21,3 +21,9 @@ class AddProduct(BaseModel):
     price: int
     quantity: int
     featured: bool
+
+class AddToCartRequest(BaseModel):
+    product_id: int
+    quantity: int
+
+
