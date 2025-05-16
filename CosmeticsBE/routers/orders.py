@@ -1,4 +1,3 @@
-from itertools import product
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel

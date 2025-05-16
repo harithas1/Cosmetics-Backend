@@ -27,7 +27,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
-@router.get("/me", status_code=status.HTTP_200_OK)
+@router.get("/verifyToken", status_code=status.HTTP_200_OK)
 async def get_current_user_profile(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401,detail='Authentication failed')
