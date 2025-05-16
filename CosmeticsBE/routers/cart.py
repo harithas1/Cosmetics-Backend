@@ -53,8 +53,12 @@ async def add_to_cart(request: schemas.AddToCartRequest,user: user_dependency,db
         )
         db.add(cart_item)
     db.commit()
-    return {"message":"Item added to cart","cart_id":cart.cart_id}
-
+    return {
+        "message": f"Added product {request.product_id} to cart.",
+        "cart_id": cart.cart_id,
+        "product_id": request.product_id,
+        "quantity": cart_item.quantity
+    }
 
 
 @router.get("/getCartItems",status_code=status.HTTP_200_OK)
@@ -63,9 +67,9 @@ async def get_cart_items(user: user_dependency,db:db_dependency):
     # Getting user's cart
     cart = db.query(Cart).filter(Cart.userId==user_id).first()
     if not cart:
-        return {"message": "No items in cart."}
+        return {"message": "No cart found for user. Your cart is empty."}
     # to get all cart items for this cart
     cart_items = db.query(CartItem).filter(cart.cart_id == CartItem.cartId).all()
     if not cart_items:
-        return {"message": "Cart is empty."}
+        return {"message": "Your cart is empty."}
     return cart_items

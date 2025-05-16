@@ -43,7 +43,11 @@ async def add_products(db: db_dependency, product: schemas.AddProduct):
         )
     db.add(add_product_model)
     db.commit()
-    return {"added product": add_product_model}
+    return {
+        "message": "Product added successfully",
+        "product": add_product_model
+    }
+
 
 @router.get("/getProducts", status_code=status.HTTP_200_OK)
 async def get_category(db: db_dependency):

@@ -35,7 +35,15 @@ async def add_category(db: db_dependency, add_category: schemas.AddCategory):
     )
     db.add(add_category_model)
     db.commit()
-    return add_category_model
+    db.refresh(add_category_model)
+    return {
+        "message": "Category added successfully.",
+        "category": {
+            "category_id": add_category_model.category_id,
+            "category_name": add_category_model.category_name,
+            "image": add_category_model.image
+        }
+    }
 
 
 @router.get("/getCategories", status_code=status.HTTP_200_OK)

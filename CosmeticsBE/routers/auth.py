@@ -93,6 +93,14 @@ async def create_user(db: db_dependency,
 
     db.add(create_user_model)
     db.commit()
+    db.refresh(create_user_model)
+
+    return {
+        "message": "User registered successfully",
+        "user_id": create_user_model.user_id,
+        "username": create_user_model.username,
+        "email": create_user_model.email,
+    }
 
 # Login and get JWT token
 @router.post("/login", response_model=Token)
@@ -103,4 +111,4 @@ async def login_for_access_token(form_data:Annotated[OAuth2PasswordRequestForm, 
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user.')
 
     token = create_access_token(user.username,str(user.user_id), user.role, timedelta(minutes=20))
-    return {'access_token':token, 'token_type':'bearer'}
+    return {'access_token':token, 'token_type':'bearer', 'message': 'Login successful'}

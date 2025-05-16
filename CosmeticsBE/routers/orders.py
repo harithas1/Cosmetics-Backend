@@ -57,8 +57,10 @@ async def create_order(order: schemas.OrderRequest,user: user_dependency,db: db_
         )
         db.add(order_item)
     db.commit()
-    return {"message": "Order created successfully", "order_id": new_order.order_id}
-
+    return {
+        "message": "Order created successfully",
+        "order_id": new_order.order_id
+    }
 
 @router.get("/getOrders",status_code=status.HTTP_200_OK)
 async def get_orders(user: user_dependency,db:db_dependency):
