@@ -50,7 +50,6 @@ async def add_to_cart(request: schemas.AddToCartRequest,user: user_dependency,db
             cartId = cart.cart_id,
             product_id = request.product_id,
             quantity = request.quantity,
-            user_id = user_id
         )
         db.add(cart_item)
     db.commit()

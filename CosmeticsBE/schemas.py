@@ -27,3 +27,9 @@ class AddToCartRequest(BaseModel):
     quantity: int
 
 
+class OrderItemRequest(BaseModel):
+    product_id: int
+    quantity: int
+
+class OrderRequest(BaseModel):
+    items: List[OrderItemRequest]
