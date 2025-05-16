@@ -53,3 +53,9 @@ async def add_products(db: db_dependency, product: schemas.AddProduct):
 async def get_category(db: db_dependency):
     add_product_model = db.query(Products).all()
     return add_product_model
+
+@router.get("/getProducts/{product_id}", status_code=status.HTTP_200_OK)
+async def get_product_detail(db: db_dependency,product_id: int):
+    get_product_detail = db.query(Products).filter(Products.product_id==product_id).firt()
+    return get_product_detail
+
