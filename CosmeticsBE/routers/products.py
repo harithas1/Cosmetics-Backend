@@ -56,6 +56,6 @@ async def get_category(db: db_dependency):
 
 @router.get("/getProducts/{product_id}", status_code=status.HTTP_200_OK)
 async def get_product_detail(db: db_dependency,product_id: int):
-    get_product_detail = db.query(Products).filter(Products.product_id==product_id).firt()
+    get_product_detail = db.query(Products).filter(Products.product_id==product_id).first()
     return get_product_detail
 
