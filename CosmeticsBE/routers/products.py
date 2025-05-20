@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette import status
-import CosmeticsBE.schemas as schemas
+import schemas
 
-from CosmeticsBE.database import Session_local
-from CosmeticsBE.models import Products
+from database import Session_local
+from models import Products
 
 
 router = APIRouter(

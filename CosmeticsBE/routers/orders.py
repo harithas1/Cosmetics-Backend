@@ -3,11 +3,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette import status
-import CosmeticsBE.schemas as schemas
+import schemas
 
-from CosmeticsBE.database import Session_local
-from CosmeticsBE.models import Products, Cart, CartItem, Orders, OrderItem
-from CosmeticsBE.routers.auth import get_current_user
+from database import Session_local
+from models import Products, Cart, CartItem, Orders, OrderItem
+from routers.auth import get_current_user
 
 router = APIRouter(
     prefix = "/orders", tags=['orders']

@@ -1,15 +1,15 @@
 # This main.py file is our root folder where we create our fastapi application
+from mangum import Mangum
 from fastapi import FastAPI
-from CosmeticsBE.models import Base
-from CosmeticsBE.database import engine
-from CosmeticsBE.routers import auth, products, users, categories, cart, orders
+from models import Base
+from database import engine
+from routers import auth, products, users, categories, cart, orders
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
-origins = ["*"]
 
 origins = [
     "http://127.0.0.1:8000",
@@ -24,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# handler = Mangum(app)
 
 # health check route
 @app.get("/healthy")

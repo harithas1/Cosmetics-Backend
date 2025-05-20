@@ -4,11 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette import status
-import CosmeticsBE.schemas as schemas
+import schemas
 
-from CosmeticsBE.database import Session_local
-from CosmeticsBE.models import Products, Cart, CartItem
-from CosmeticsBE.routers.auth import get_current_user
+from database import Session_local
+from models import Products, Cart, CartItem
+from routers.auth import get_current_user
 
 router = APIRouter(
     prefix = "/cart", tags=['cart']
@@ -72,4 +72,33 @@ async def get_cart_items(user: user_dependency,db:db_dependency):
     cart_items = db.query(CartItem).filter(cart.cart_id == CartItem.cartId).all()
     if not cart_items:
         return {"message": "Your cart is empty."}
-    return cart_items
+    result =[]
+    for item in cart_items:
+        product=db.query(Products).filter(Products.product_id == item.product_id).first()
+        result.append({
+            "cart_item_id": item.id,
+            "quantity": item.quantity,
+            "product": {
+                "id": product.product_id,
+                "name": product.product_name,
+                "price": product.price,
+                "image":product.image,
+                "description": product.description,
+                "brand": product.brand
+                }
+            })
+    return result
+
+
+
+# @router.delete("/cart/remove/{cart_item_id}")
+# def remove_from_cart(cart_item_id: int, db: db_dependency, user: user_dependency):
+#     cart_item = db.query(CartItem).filter(CartItem.id== cart_item_id).first()
+#
+#     if not cart_item:
+#         raise HTTPException(status_code=404, detail="Cart item not found")
+#
+#     db.delete(cart_item)
+#     db.commit()
+#
+#     return {"message": "Item removed from cart successfully"}
